@@ -1,0 +1,25 @@
+@font-face {
+	font-family : SmartFontUI;
+	src         : ./css/SmartFontUI.otf format("opentype"), ../css/SmartFontUI.otf format("opentype"), ./SmartFontUI.otf format("opentype");
+}
+
+body {
+	font-family: SmartFontUI;
+}
+
+.headerButton {
+	width : 100px;
+	height : 50px;
+	float: left;
+	background-color : rgba(51,153,255,0.7);
+	margin-left: 10px;
+	margin-right:10px;
+	margin-bottom:10px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor : pointer;
+	
+	font-weight:bold;
+}

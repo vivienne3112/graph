@@ -1,0 +1,100 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="./css/site.css">
+
+	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="./js/sample.js"></script>
+	<script type="text/javascript" src="./js/Chart.min.js"></script>
+
+<script>
+$(function() {
+	var dataObj = createData();
+	console.log(dataObj.name);
+	$("#name").text(dataObj.name);
+	
+	// グラフデータ生成
+	var month = 11;
+	var chartObj = {};
+	chartObj.labels = []; // 11月を格納
+
+	var lCnt = loopEnd(2017,month);
+	var tMonthData = dataObj.data[month];
+
+	console.log(tMonthData.day);
+
+	for(var i=0; i<tMonthData.day.length; i++) {
+		if(lCnt == i) break;
+		var dayObj = tMonthData.day[i];
+		chartObj.labels.push(dayObj.day);
+	}
+
+	chartObj.datasets = [];
+	chartObj.datasets[0] = {};
+	chartObj.datasets[0].label = "勤務時間"
+	chartObj.datasets[0].data =[];
+	
+	for(var i=0; i<chartObj.labels.length; i++) {
+		var dayObj = tMonthData.day[chartObj.labels[i]];
+		chartObj.datasets[0].data.push(dayObj.baseTime + dayObj.extTime);
+	}
+
+	// color
+	chartObj.datasets[0].backgroundColor = "rgba(51,153,255,0.7)";
+
+	// option
+	var chartOption = {
+		scaleOverride : true,
+		animation : true,
+		scaleLabel : "<%=value%>時間",
+		showTooltips: true,
+		pointDot : true,
+//		bezierCurve : false,
+	
+	}
+
+	function createChart(chartType) {
+
+		// chart create!!
+		var ctx = document.getElementById("myChart").getContext('2d');
+		var myChart = new Chart(ctx, {
+			type: chartType,
+			data: chartObj,
+			options: {
+				scales: {
+					yAxes: [
+						{
+							ticks: {
+								beginAtZero: true,
+								min: 0,
+								max: 20
+							}
+						}
+					]
+				}
+			}
+		}, chartOption);
+	}
+	
+	createChart('bar');
+	
+	$("#line").click(function() {
+		createChart('line');
+	});
+	$("#bar").click(function() {
+		createChart('bar');
+	});
+
+});
+</script>
+</head>
+<body>
+サンプル
+<hr>
+<span id="name"></span><BR>
+<div style="width: 100%">
+	<div id="line" class="headerButton">LINE</div><div id="bar" class="headerButton">BAR</div>
+</div>
+<hr style="clear:both">
+<canvas id="myChart"></canvas>
+</body>
+</html>
